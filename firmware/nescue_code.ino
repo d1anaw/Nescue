@@ -36,7 +36,7 @@ float gx_offset = 0, gy_offset = 0, gz_offset = 0;
 #define ay_offset 0.02
 #define az_offset -0.15
 /*TIMING MACROS*/
-#define dT 0.004 // 4ms loop period -> 250Hz
+#define dT 0.02 // 4ms loop period -> 250Hz
 
 /* I2C COMMUNICATION MACROS */
 #define SDA_PIN 8
@@ -44,7 +44,6 @@ float gx_offset = 0, gy_offset = 0, gz_offset = 0;
 #define CLOCK_FREQ 400000 
 
 /* DATA COLLECTION MACROS*/
-int currentLabel = 0;
 
 
 /* Kalman Filter Macros */
@@ -230,6 +229,8 @@ void setup() {
 
   Serial.println("Finished determining offset.");
   delay(250);
+  Serial.println("roll,pitch,label");
+
   loopTimer = millis();
 }
 void print_kalman(){
@@ -247,7 +248,10 @@ void loop() {
   apply_offsets();
   calc_angles();
   apply_kalman();
-  print_kalman();
+  Serial.print(angleRoll); Serial.print(",");
+  Serial.print(anglePitch); Serial.print(",");
+  Serial.println("upright");
+  // print_kalman();
 
   
   // print_gyro();
